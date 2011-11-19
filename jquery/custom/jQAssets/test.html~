@@ -1,0 +1,36 @@
+<script type="text/javascript" src="http://localhost/js/jquery/jquery-1.4.2.min.js"></script>
+<script type="text/javascript" src="/a/static/custom/scripts/jQAssets.js"></script>
+<script type="text/javascript">
+// When the document is ready, hook up the puzzle
+// functionality to the targeted DIVs.
+window.onload = function(){
+    assets.remote.bodyContainer.id = 'remoteBodyContainer';
+    assets.remote.relayUrl = 'http://localhost:8081/a/relay?url=%(url)s&output=html';
+    assets.get('http://localhost/pages/misc/mayan_majix_index_test.html');
+
+    for(var i=0; i<2; i++){
+        assets.tag.img[i].src = assets.tag.img[i].src.replace('http://localhost:8081/a/static/custom/scripts/jQAssets/', 'http://localhost/pages/misc/');
+        $('#images').append(assets.tag.img[i]);
+    }
+    $('#remoteBodyContainer').html("");
+};
+
+/*
+$(document).ready(
+	function(){
+        assets.get('http://www.mayanmajix.com/TZOLKIN/DT/DT.html');
+	}
+);
+*/
+</script>
+<style type="text/javascript">
+    #remoteBodyContainer {
+        width: 0.1mm;
+        height: 0.1mm;
+    }
+    #images img+img {
+        margin-left: -0.2mm;
+    }
+</style>
+<div id="remoteBodyContainer"></div>
+<div id="images"></div>

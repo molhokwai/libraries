@@ -1,0 +1,54 @@
+/* quick method, not guaranteed (html incorrectly formatted...) */
+var assets = {
+	tagList : {'img': [], 'a' : [], 'embed' : [], 'object' : []},
+	getFromParsedHtml : function(html){
+ 		/* . Get the body html:
+	  		-	Append it to given element
+	  		-	Get given element assets (images, embeds, links...)
+ 		*/
+		$('#remoteBodyContainer').html(body);
+		for(tag in assets.tagList){
+			assets.tagList[tag] = $('#remoteBodyContainer '+tag);
+		}
+	},
+	getFromHtmlString : function(html){
+ 		/* . Get the body html:
+	  		-	Regex to find assets 
+			.	Append 
+ 		*/
+		for(tag in assets.tagList){
+			var results = new RegExp('/(<'+tag+'.*['+tag+']{0,1}\\/>$)/').exec(html);
+			for(i in results){
+				assets.tagList[tag].push($.parseXML(results[i][1]));
+			}
+		}
+	},
+	getAssetAttribute : function(attr){
+		/*	Regexp to get the given attribute from asset string
+			Or direct $(...).attr(attr)
+		*/
+	}
+}
+
+$.ajax({
+	url : 'http://www.mayanmajix.com/TZOLKIN/DT/DT.html'
+	type : 'BODY',
+	success : function(body){
+		assets.getFromParsedHtml(body);
+		assets.getFromHtmlString(body);
+	}
+});
+
+/*pseudo code*/
+$.ajax({
+	type : 'BODY',
+	success : function(body){
+ 	/* . Get the two calendar images:
+	  	Sample sources:
+	  	- images/11.jpg (12.jpg, 13.jpg..., (0 - 13).jpg)
+	  	- images/crocodile.jpg right next to previous image...
+		. Display
+ 	*/
+}
+});
+
